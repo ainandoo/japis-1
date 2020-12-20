@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:japis_new/navigasi/akun/Login.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:japis_new/sub-halaman/MenuMarketplace.dart';
 import 'package:japis_new/sub-halaman/MenuVRT.dart';
@@ -55,7 +56,12 @@ class HalamanAwal extends StatelessWidget {
                       children: [
                         Column(children: [
                           InkWell(
-                            onTap: _launchURL,
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Akun()));
+                            },
                             child: Container(
                               width: 80,
                               height: 80,
@@ -69,7 +75,10 @@ class HalamanAwal extends StatelessWidget {
                           InkWell(
                             splashColor: Colors.blue.withAlpha(30),
                             onTap: () {
-                              print('Tracer study tapped.');
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Akun()));
                             },
                             child: Container(
                               width: 80,
@@ -112,7 +121,7 @@ class HalamanAwal extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => MenuVRT()));
+                                      builder: (context) => Akun()));
                             },
                             child: Container(
                               width: 80,
@@ -126,7 +135,10 @@ class HalamanAwal extends StatelessWidget {
                           InkWell(
                             splashColor: Colors.blue.withAlpha(30),
                             onTap: () {
-                              print('AI tapped.');
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Akun()));
                             },
                             child: Container(
                               width: 80,
@@ -140,7 +152,10 @@ class HalamanAwal extends StatelessWidget {
                           InkWell(
                             splashColor: Colors.blue.withAlpha(30),
                             onTap: () {
-                              print('CC tapped.');
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Akun()));
                             },
                             child: Container(
                               width: 80,

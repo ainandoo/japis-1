@@ -33,18 +33,24 @@ class _BerkasState extends State<Berkas> {
     return jsondata;
   }
 
-  File _image;
+  File dummy;
+
+  File bukti, uangmuka;
+  File ijazah;
+  File keterangan;
   final picker = ImagePicker();
   Future getFile() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
 
     setState(() {
       if (pickedFile != null) {
-        _image = File(pickedFile.path);
+        print("kesini1");
+        dummy = File(pickedFile.path);
       } else {
         print('No image selected.');
       }
     });
+    return dummy;
   }
 
   Future getImage() async {
@@ -52,11 +58,23 @@ class _BerkasState extends State<Berkas> {
 
     setState(() {
       if (pickedFile != null) {
-        _image = File(pickedFile.path);
+        print("kesini1");
+        dummy = File(pickedFile.path);
       } else {
         print('No image selected.');
       }
     });
+    return dummy;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    dummy = null;
+    bukti = null;
+    uangmuka = null;
+    ijazah = null;
+    keterangan = null;
   }
 
   @override
@@ -85,7 +103,7 @@ class _BerkasState extends State<Berkas> {
                 ],
               ),
             ));
-    topup(BuildContext context) => showDialog(
+    topup(BuildContext context, String parameter) => showDialog(
         context: context,
         builder: (context) => Center(
               child: AlertDialog(
@@ -102,7 +120,21 @@ class _BerkasState extends State<Berkas> {
                           margin: EdgeInsets.all(10),
                           child: InkWell(
                             onTap: () {
-                              getImage();
+                              getImage().then((value) {
+                                print(value);
+                                print(parameter);
+                                setState(() {
+                                  if (parameter == "ijazah") {
+                                    ijazah = value;
+                                  } else if (parameter == "keterangan") {
+                                    keterangan = value;
+                                  } else if (parameter == "uangmuka") {
+                                    uangmuka = value;
+                                  } else {
+                                    bukti = value;
+                                  }
+                                });
+                              });
                             },
                             child: Center(
                               child: Container(
@@ -125,7 +157,15 @@ class _BerkasState extends State<Berkas> {
                           margin: EdgeInsets.all(10),
                           child: InkWell(
                             onTap: () {
-                              getFile();
+                              getFile().then((value) {
+                                if (parameter == "ijazah") {
+                                  ijazah = value;
+                                } else if (parameter == "keterangan") {
+                                  keterangan = value;
+                                } else {
+                                  bukti = value;
+                                }
+                              });
                             },
                             child: Center(
                               child: Container(
@@ -223,41 +263,50 @@ class _BerkasState extends State<Berkas> {
                               SizedBox(
                                 height: 15,
                               ),
-                              InkWell(
-                                onTap: () {
-                                  topup(context);
-                                },
-                                child: Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                                  child: Container(
-                                    height: 200,
-                                    width: MediaQuery.of(context).size.width,
-                                    child: Card(
-                                      color: Colors.grey.withOpacity(0.4),
-                                      child: Column(
-                                        children: [
-                                          SizedBox(
-                                            height: 20,
+                              ijazah != null
+                                  ? InkWell(
+                                      onTap: () {
+                                        topup(context, "ijazah");
+                                      },
+                                      child: Image.file(ijazah))
+                                  : InkWell(
+                                      onTap: () {
+                                        topup(context, "ijazah");
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            20, 0, 20, 0),
+                                        child: Container(
+                                          height: 200,
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          child: Card(
+                                            color: Colors.grey.withOpacity(0.4),
+                                            child: Column(
+                                              children: [
+                                                SizedBox(
+                                                  height: 20,
+                                                ),
+                                                Icon(
+                                                  Icons.image_search_outlined,
+                                                  size: 100,
+                                                ),
+                                                Text(
+                                                  "Upload Berkas",
+                                                  style: TextStyle(
+                                                      fontSize: 15,
+                                                      fontStyle:
+                                                          FontStyle.normal,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: Colors.black),
+                                                )
+                                              ],
+                                            ),
                                           ),
-                                          Icon(
-                                            Icons.image_search_outlined,
-                                            size: 100,
-                                          ),
-                                          Text(
-                                            "Upload Berkas",
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                fontStyle: FontStyle.normal,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black),
-                                          )
-                                        ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ),
-                              ),
                               SizedBox(
                                 height: 30,
                               ),
@@ -272,43 +321,108 @@ class _BerkasState extends State<Berkas> {
                               SizedBox(
                                 height: 15,
                               ),
-                              InkWell(
-                                onTap: () {
-                                  topup(context);
-                                },
-                                child: Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                                  child: Container(
-                                    height: 200,
-                                    width: MediaQuery.of(context).size.width,
-                                    child: Card(
-                                      color: Colors.grey.withOpacity(0.4),
-                                      child: Column(
-                                        children: [
-                                          SizedBox(
-                                            height: 20,
+                              keterangan != null
+                                  ? InkWell(
+                                      onTap: () {
+                                        topup(context, "keterangan");
+                                      },
+                                      child: Image.file(keterangan))
+                                  : InkWell(
+                                      onTap: () {
+                                        topup(context, "keterangan");
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            20, 0, 20, 0),
+                                        child: Container(
+                                          height: 200,
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          child: Card(
+                                            color: Colors.grey.withOpacity(0.4),
+                                            child: Column(
+                                              children: [
+                                                SizedBox(
+                                                  height: 20,
+                                                ),
+                                                Icon(
+                                                  Icons.image_search_outlined,
+                                                  size: 100,
+                                                ),
+                                                Text(
+                                                  "Upload Berkas",
+                                                  style: TextStyle(
+                                                      fontSize: 15,
+                                                      fontStyle:
+                                                          FontStyle.normal,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: Colors.black),
+                                                )
+                                              ],
+                                            ),
                                           ),
-                                          Icon(
-                                            Icons.image_search_outlined,
-                                            size: 100,
-                                          ),
-                                          Text(
-                                            "Upload Berkas",
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                fontStyle: FontStyle.normal,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black),
-                                          )
-                                        ],
+                                        ),
+                                      ),
+                                    ),
+                            ]),
+                  widget.judul != "healthcare"
+                      ? Container()
+                      : Column(children: [
+                          Text(
+                            "Bukti Bayar Uang Muka",
+                            style: TextStyle(
+                                fontSize: 25,
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black),
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          keterangan != null
+                              ? InkWell(
+                                  onTap: () {
+                                    topup(context, "uangmuka");
+                                  },
+                                  child: Image.file(uangmuka))
+                              : InkWell(
+                                  onTap: () {
+                                    topup(context, "uangmuka");
+                                  },
+                                  child: Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                                    child: Container(
+                                      height: 200,
+                                      width: MediaQuery.of(context).size.width,
+                                      child: Card(
+                                        color: Colors.grey.withOpacity(0.4),
+                                        child: Column(
+                                          children: [
+                                            SizedBox(
+                                              height: 20,
+                                            ),
+                                            Icon(
+                                              Icons.image_search_outlined,
+                                              size: 100,
+                                            ),
+                                            Text(
+                                              "Upload Berkas",
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontStyle: FontStyle.normal,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.black),
+                                            )
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ]),
-                  widget.judul == "training"
+                        ]),
+                  widget.judul == "training" || widget.judul == "healthcare"
                       ? Container()
                       : Column(
                           children: [
@@ -323,41 +437,48 @@ class _BerkasState extends State<Berkas> {
                             SizedBox(
                               height: 15,
                             ),
-                            InkWell(
-                              onTap: () {
-                                topup(context);
-                              },
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                                child: Container(
-                                  height: 200,
-                                  width: MediaQuery.of(context).size.width,
-                                  child: Card(
-                                    color: Colors.grey.withOpacity(0.4),
-                                    child: Column(
-                                      children: [
-                                        SizedBox(
-                                          height: 20,
+                            bukti != null
+                                ? InkWell(
+                                    onTap: () {
+                                      topup(context, "bukti");
+                                    },
+                                    child: Image.file(bukti))
+                                : InkWell(
+                                    onTap: () {
+                                      topup(context, "bukti");
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          20, 0, 20, 0),
+                                      child: Container(
+                                        height: 200,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        child: Card(
+                                          color: Colors.grey.withOpacity(0.4),
+                                          child: Column(
+                                            children: [
+                                              SizedBox(
+                                                height: 20,
+                                              ),
+                                              Icon(
+                                                Icons.image_search_outlined,
+                                                size: 100,
+                                              ),
+                                              Text(
+                                                "Upload Berkas",
+                                                style: TextStyle(
+                                                    fontSize: 15,
+                                                    fontStyle: FontStyle.normal,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.black),
+                                              )
+                                            ],
+                                          ),
                                         ),
-                                        Icon(
-                                          Icons.image_search_outlined,
-                                          size: 100,
-                                        ),
-                                        Text(
-                                          "Upload Berkas",
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontStyle: FontStyle.normal,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black),
-                                        )
-                                      ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ),
-                            ),
                           ],
                         )
                 ],

@@ -16,8 +16,19 @@ class DetailEtraining extends StatefulWidget {
 class _DetailEtrainingState extends State<DetailEtraining>
     with SingleTickerProviderStateMixin {
   int index = 0;
+  String tombol;
   @override
   Widget build(BuildContext context) {
+    if (widget.judul == "training") {
+      tombol = "Daftar";
+    } else if (widget.judul == "healthcare") {
+      tombol = "Daftar";
+    } else if (widget.judul == "commerce") {
+      tombol = "Beli";
+    } else {
+      tombol = "Sewa";
+    }
+
     List listwidget = [
       Container(
           child: Column(
@@ -38,6 +49,7 @@ class _DetailEtrainingState extends State<DetailEtraining>
         ],
       ))
     ];
+
     return Scaffold(
       bottomNavigationBar: Container(
         height: 50,
@@ -62,8 +74,11 @@ class _DetailEtrainingState extends State<DetailEtraining>
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => Bayar(widget.data,
-                            widget.imageurl + widget.foto[0], widget.judul)));
+                        builder: (context) => Bayar(
+                            widget.data,
+                            widget.imageurl + widget.foto[0],
+                            widget.judul,
+                            tombol)));
               },
               child: Container(
                   height: 50,
@@ -71,7 +86,7 @@ class _DetailEtrainingState extends State<DetailEtraining>
                   color: Colors.red,
                   child: Center(
                       child: Text(
-                    "Daftar",
+                    tombol,
                     style: TextStyle(
                         fontSize: 20,
                         fontStyle: FontStyle.normal,
@@ -187,7 +202,7 @@ class _DetailEtrainingState extends State<DetailEtraining>
                         padding: const EdgeInsets.only(left: 5, right: 5),
                         child: Container(
                             height: 35,
-                            width: 110,
+                            width: 170,
                             color: index == 0 ? Colors.grey : Color(0xFF44D8F3),
                             child: Center(
                                 child: Text("Deskripsi",
@@ -201,30 +216,30 @@ class _DetailEtrainingState extends State<DetailEtraining>
                                     )))),
                       ),
                     ),
-                    InkWell(
-                      onTap: () {
-                        setState(() {
-                          index = 1;
-                        });
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 5, right: 5),
-                        child: Container(
-                            height: 35,
-                            width: 110,
-                            color: index == 1 ? Colors.grey : Color(0xFF44D8F3),
-                            child: Center(
-                                child: Text("Syarat",
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontStyle: FontStyle.normal,
-                                      fontWeight: FontWeight.w500,
-                                      color: index == 1
-                                          ? Color(0xFF44D8F3)
-                                          : Colors.white,
-                                    )))),
-                      ),
-                    ),
+                    // InkWell(
+                    //   onTap: () {
+                    //     setState(() {
+                    //       index = 1;
+                    //     });
+                    //   },
+                    //   child: Padding(
+                    //     padding: const EdgeInsets.only(left: 5, right: 5),
+                    //     child: Container(
+                    //         height: 35,
+                    //         width: 110,
+                    //         color: index == 1 ? Colors.grey : Color(0xFF44D8F3),
+                    //         child: Center(
+                    //             child: Text("Syarat",
+                    //                 style: TextStyle(
+                    //                   fontSize: 20,
+                    //                   fontStyle: FontStyle.normal,
+                    //                   fontWeight: FontWeight.w500,
+                    //                   color: index == 1
+                    //                       ? Color(0xFF44D8F3)
+                    //                       : Colors.white,
+                    //                 )))),
+                    //   ),
+                    // ),
                     InkWell(
                       onTap: () {
                         setState(() {
@@ -235,7 +250,7 @@ class _DetailEtrainingState extends State<DetailEtraining>
                         padding: const EdgeInsets.only(left: 5, right: 5),
                         child: Container(
                           height: 35,
-                          width: 110,
+                          width: 170,
                           color: index == 2 ? Colors.grey : Color(0xFF44D8F3),
                           child: Center(
                               child: Text("Ulasan",
